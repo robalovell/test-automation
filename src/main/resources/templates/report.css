@@ -1,0 +1,66 @@
+.testCase {
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+    border-right: 2px solid;
+    height: auto;
+}
+
+.testCaseOdd {
+    background-color: infobackground;
+}
+
+.testCaseFirst {
+    border-top: 2px solid;
+}
+
+.passed {
+    background-color: lightgreen !important;
+}
+
+.failed {
+    background-color: red !important;
+}
+
+.testStep {
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+}
+
+.clear .gap{
+    clear: both;
+}
+
+.tab{
+    width: 30px;
+}
+
+
+.gap {
+    height: 10px;
+}
+
+.testStepOdd {
+    background-color: seashell;
+}
+
+.testStepEven {
+    background-color: lightcyan;
+}
+
+#testSenarios {
+    border: 2px solid;
+    float: left;
+    height: 100%;
+    width: 10%;
+}
+
+#testCaseResult {
+    float: right;
+    height: 100%;
+    width: 89%;
+}
+
+.title {
+text-align: center;
+}
