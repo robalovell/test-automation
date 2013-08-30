@@ -1,5 +1,5 @@
 Tag:firstTest, CRP-101, Signup
-Senario:Testing System 2
+Scenario:Testing System 2
 TestCase:Test1
 click "here"
 
