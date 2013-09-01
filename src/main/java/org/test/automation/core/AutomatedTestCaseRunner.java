@@ -33,7 +33,7 @@ public class AutomatedTestCaseRunner {
 
 	private static final String TAG_KEY_WORD = "Tag:";
 
-	private static final String SENARIO_KEY_WORD = "Senario:";
+	private static final String SENARIO_KEY_WORD = "Scenario:";
 
 	private static final String TEST_CASE_KEY_WORD = "TestCase:";
 	
