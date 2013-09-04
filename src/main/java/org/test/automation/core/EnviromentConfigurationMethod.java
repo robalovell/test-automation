@@ -23,7 +23,7 @@ public class EnviromentConfigurationMethod {
 		this.method = method;
 	}
 
-	public static EnviromentConfigurationMethod buildFromAnnpotatedMethod(Method method, Constructor<?> constructor) throws IllegalArgumentException,
+	public static EnviromentConfigurationMethod buildFromAnnotatedMethod(Method method, Constructor<?> constructor) throws IllegalArgumentException,
 			InstantiationException, IllegalAccessException, InvocationTargetException
 	{
 		if(method.getDeclaringClass() != constructor.getDeclaringClass())

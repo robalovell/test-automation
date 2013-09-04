@@ -29,6 +29,40 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 
+/**
+ * <p>This is the class that allows you to run the test cases in the .atc files.</p> 
+ * 
+ * 
+ * <p>This will read the .atc files, parse them and then run each test case in turn. 
+ * The out put of this is a html document under your target/test-automation-report/ folder
+ * of the repo you are using.  This report details each test scenario and case 
+ * listing all the passed steps in green and failed in red as well as any steps not run.</p> 
+ * 
+ * <p>The format of the .atc file that is expected is as follows</p>
+ * <pre>{@code 
+ * Tag: firstTest
+ * Scenario: My First Test
+ * TestCase: My First Test Case
+ * click button "hello"
+ * 
+ * TestCase: My Second Test Case
+ * click button "world"
+ * }
+ * </pre>
+ * 
+ * <p>The Tag line is the only optional element this allows with the TestAutmationProperties.
+ * setTagToRun() property method the ability to filter your test cases to only the ones sitting
+ * under scenarios with the tags provided.</p>
+ * 
+ * <p>The Scenario line is so that you can give this group of test cases a name.</p>
+ * 
+ * <p>The Test Case line is so you can give this test case a name and must be immediately 
+ * followed on the next line by the test steps a line break in the test steps will signal the 
+ * start of the next test case which must have the TestCase line again.</p>
+ * 
+ * @author roblovell
+ *
+ */
 public class AutomatedTestCaseRunner {
 
 	private static final String TAG_KEY_WORD = "Tag:";
@@ -46,6 +80,10 @@ public class AutomatedTestCaseRunner {
 	private final Set<String> searchTags;
 	
 	
+	/**
+	 * This constructs a new AutomatedTestCaseRunner setting the tag filtering 
+	 * for this instance to the return from the TestAutmationProperties.getTagToRun() method.
+	 */
 	public AutomatedTestCaseRunner()
 	{
 		Set<String> searchTags = new HashSet<String>();
@@ -62,6 +100,13 @@ public class AutomatedTestCaseRunner {
 	}
 	
 	
+	/**
+	 * This method gets and runs all the test cases found on the class path once the tag filtering has taken place.
+	 * 
+	 * @throws IOException if unable to generate report or read .atc file
+	 * @throws TemplateException if unable to generate report
+	 * @throws URISyntaxException if unable to generate report
+	 */
 	public void runTestCases() throws IOException, TemplateException, URISyntaxException 
 	{
 		Set<TestFile> testFiles = fileAllFilesToExcute();

@@ -18,7 +18,7 @@ final class AnnotationFinder {
 	
 	static final  Set<Class<?>> getClassesForAnnotation(Class<? extends Annotation> annotation)
 	{
-		String topPackage = System.getProperty("test.annotation.package", "tests");
+		String topPackage = System.getProperty("test.annotation.package", "org.test.automation");
         LOGGER.info("search package org.test.automation."+topPackage);
     	final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(
 		        false);

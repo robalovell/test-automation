@@ -3,14 +3,12 @@ package org.test.automation.annotations;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/**<p>The TextCall Annotation is used to mark you test help methods with a plain text expression 
+/**<p>The TextCall annotation is used to mark you test help methods with a plain text expression 
  * that can be used in a .atc file in order to call the method.</p>
  * 
- * <p>The calss that this method belongs to should only have one constructor but you can use the 
- * {@link AutomatedTestConstructer} Annotation if you have more than one in order to tell framework 
+ * <p>The class that this method belongs to should only have one constructor but you can use the 
+ * {@link org.test.automation.annotations.AutomatedTestConstructer} annotation if you have more than one in order to tell framework 
  * which one it should use</p>
- * 
- * <p>The TextCall Annotation has a mandatory value attribute and optional createNewOnEachCall</p>
  * 
  * 
  * @author roblovell

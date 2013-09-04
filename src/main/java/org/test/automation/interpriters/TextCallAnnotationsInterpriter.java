@@ -30,7 +30,7 @@ public class TextCallAnnotationsInterpriter extends AbstractInterpriter{
         			try
 					{
         				Constructor<?> constructor = getConstructor(clazz);
-        				calls.add(TextCallMethod.buildFromAnnpotatedMethod(method, constructor));
+        				calls.add(TextCallMethod.buildFromAnnotatedMethod(method, constructor));
 					} catch (InstantiationException e)
 					{
 						LOGGER.error("Error when trying to create test helper object", e);

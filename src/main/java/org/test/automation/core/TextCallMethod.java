@@ -198,7 +198,7 @@ public class TextCallMethod implements Cloneable
 		return convertedParams;
 	}
 	
-	public static TextCallMethod buildFromAnnpotatedMethod(Method method, Constructor<?> constructor) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
+	public static TextCallMethod buildFromAnnotatedMethod(Method method, Constructor<?> constructor) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
 	{
 		TextCall textCall = method.getAnnotation(TextCall.class);
 		if(textCall==null)

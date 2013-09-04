@@ -30,7 +30,7 @@ public abstract class EnviromentConfigurationAnnotationInterpriter extends Abstr
         			try
 					{
         				Constructor<?> constructor = getConstructor(clazz);
-        				calls.add(EnviromentConfigurationMethod.buildFromAnnpotatedMethod(method, constructor));
+        				calls.add(EnviromentConfigurationMethod.buildFromAnnotatedMethod(method, constructor));
 					} catch (InstantiationException e)
 					{
 						LOGGER.error("Error when trying to create test helper object", e);

@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 
 /**<p>
- * The AutomatedTestConstructer is to be used when your test helper class has more than one constructor that is public.
+ * The AutomatedTestConstructer annotation is to be used when your test helper class has more than one constructor that is public.
  * It allows you to define which one the framework should use if there is only one public constructor it will 
  * default to this and there is no need to use this annotation.</p>
  * <p>
