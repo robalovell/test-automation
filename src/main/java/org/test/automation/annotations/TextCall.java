@@ -10,6 +10,23 @@ import java.lang.annotation.RetentionPolicy;
  * {@link org.test.automation.annotations.AutomatedTestConstructer} annotation if you have more than one in order to tell framework 
  * which one it should use</p>
  * 
+ * <p>The method can take any number of parameters of the following types
+ * <ul>
+ * <li>Integer</li>
+ * <li>Long</li>
+ * <li>Double</li>
+ * <li>Float</li>
+ * <li>Character</li>
+ * <li>BigDecimal</li>
+ * <li>BigInteger</li>
+ * <li>Enum</li>
+ * <li>Calendar(using the format "HH:mm:ss dd/MM/yyyy")</li>
+ * <li>Date(using the format "HH:mm:ss dd/MM/yyyy")</li>
+ * <li>String</li>
+ * </ul>
+ * The date and Calendar format can be changed using the prperty helper TestAutmationProperties.setDateFormat().
+ * </p>
+ * 
  * 
  * @author roblovell
  *
@@ -26,7 +43,8 @@ public @interface TextCall {
 	 *     public void click(String buttonName)
 	 *     {
 	 *     ...
-	 *     }</pre>
+	 *     }
+	 * }</pre>
 	 * <p>Then the text in you file could be.</p>
 	 * 
 	 * 

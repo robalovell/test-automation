@@ -141,7 +141,7 @@ public class AutomatedTestCaseRunner {
 		
 		for (TestFile testFile : testFiles)
 		{
-			File file2 = new File(file.getAbsolutePath()+"/"+testFile.getSenario()+"/index.html");
+			File file2 = new File(file.getAbsolutePath()+"/"+testFile.getScenario()+"/index.html");
 			file2.getParentFile().mkdirs();
 			output = new OutputStreamWriter(new FileOutputStream(file2));
 			map.put("file", testFile);
@@ -164,7 +164,7 @@ public class AutomatedTestCaseRunner {
 				TestFile file = parseFile(atcFile.getFile());
 				if(testFiles.contains(file))
 				{
-					throw new RuntimeException("Two test Files found with the with the senario " + file.getSenario() );
+					throw new RuntimeException("Two test Files found with the with the senario " + file.getScenario() );
 				}
 				if(searchTags.isEmpty() || file.getTags().containsAll(searchTags))
 				{

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.test.automation.core.AutomatedTestCaseRunner;
@@ -15,6 +16,16 @@ import freemarker.template.TemplateException;
 
 public class RunFileTest {
 	
+	@After
+	public void tearDown()
+	{
+		System.setProperty("tags", "");
+		TestClass.callCount=0;
+		TestClass.createdCount=0;
+		TestBeforeAfter.setUpCalls = 0;
+		TestBeforeAfter.tearDownCalls = 0;
+	}
+	
 	@Test
 	public void testGetAllFiles() throws IOException, TemplateException, URISyntaxException
 	{
@@ -22,13 +33,10 @@ public class RunFileTest {
 		AutomatedTestCaseRunner runner = new AutomatedTestCaseRunner();
 		runner.runTestCases();
 		Assert.assertThat(TestClass.callCount, CoreMatchers.is(CoreMatchers.equalTo(2)));
-		Assert.assertThat(TestClass.createdCount, CoreMatchers.is(CoreMatchers.equalTo(3)));
+		Assert.assertThat(TestClass.createdCount, CoreMatchers.is(CoreMatchers.equalTo(1)));
 		Assert.assertThat(TestBeforeAfter.setUpCalls, CoreMatchers.is(CoreMatchers.equalTo(2)));
 		Assert.assertThat(TestBeforeAfter.tearDownCalls, CoreMatchers.is(CoreMatchers.equalTo(2)));
-		TestClass.callCount=0;
-		TestClass.createdCount=0;
-		TestBeforeAfter.setUpCalls = 0;
-		TestBeforeAfter.tearDownCalls = 0;
+		
 	}
 
 }

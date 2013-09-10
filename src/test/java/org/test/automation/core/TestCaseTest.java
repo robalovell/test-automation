@@ -1,30 +1,55 @@
 package org.test.automation.core;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+import org.hamcrest.CoreMatchers;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InOrder;
+import org.test.automation.tests.classes.TestBeforeAfter;
+import org.test.automation.tests.classes.TestClass;
 
 
 public class TestCaseTest {
 
-	@Test
-	public void testTestCase_runMethods()
+	public PrintStream ps; 
+	
+	@Before
+	public void setup()
 	{
-		TestCall testCall = mock(TestCall.class);
-		TestCall testCall2 = mock(TestCall.class);
-		Throwable error = new RuntimeException();
-		doThrow(error).when(testCall2).runCommand();
+		ps = System.out;
+	}
+	
+	@After
+	public void tearDown()
+	{
+		System.setOut(ps);
+		TestClass.callCount=0;
+		TestClass.createdCount=0;
+		TestBeforeAfter.setUpCalls = 0;
+		TestBeforeAfter.tearDownCalls = 0;
+	}
+	
+	@Test
+	public void testTestCase_runMethods() throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(baos); 
+		TextCallMethod callMethod =  TextCallMethod.buildFromAnnotatedMethod(TestClass.class.getMethod("click", String.class), TestClass.class.getConstructors()[0]);
+		System.setOut(ps);
+		TestCall testCall = new TestCall("click \"test\"",callMethod);
+		TestCall testCall2 = new TestCall("click \"ing\"", callMethod);
 		TestCase testCase = new TestCase("test", Arrays.asList(testCall, testCall2));
 		
 		testCase.runTestCase();
-		InOrder order = inOrder(testCall, testCall2);
-		order.verify(testCall).runCommand();
-		order.verify(testCall2).runCommand();
+		
+		String output = new String(baos.toByteArray());
+		
+		Assert.assertThat(output, CoreMatchers.is(CoreMatchers.equalTo("click test\nclick ing\n")));
 		
 	}
 	

@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.test.automation.core.EnviromentConfigurationMethod;
 
 
-public abstract class EnviromentConfigurationAnnotationInterpriter extends AbstractInterpriter {
+abstract class EnviromentConfigurationAnnotationInterpriter extends AbstractInterpriter {
 
 	private final static Logger LOGGER = Logger.getLogger(AfterTestCaseAnnotationInterpriter.class);
  

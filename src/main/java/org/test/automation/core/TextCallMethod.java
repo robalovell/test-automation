@@ -17,7 +17,13 @@ import org.springframework.util.StringUtils;
 import org.test.automation.annotations.TextCall;
 import org.test.automation.exceptions.ValidationException;
 
-public class TextCallMethod implements Cloneable
+/**This class describes the way in which to invoce a {@link org.test.automation.annotations.TextCall} 
+ * annotated method using the information entered within a .atc file.
+ * 
+ * @author roblovell
+ *
+ */
+public class TextCallMethod
 {	
 
 	private final static Logger LOGGER = Logger.getLogger(TextCallMethod.class);
@@ -66,42 +72,63 @@ public class TextCallMethod implements Cloneable
 		}
 	}
 	
+	
+	/**This matches the annotated method with a text string
+	 * @param text test step entered into a file
+	 * @return true is a full match is found
+	 */
 	public boolean matchMethod(String text) {
 		return pattern.matcher(text.trim().toLowerCase()).matches();
 	}
 
+	/**Calls the underlying java method using the test step entered into a file 
+	 * @param text test step entered into a file
+	 * @throws IllegalArgumentException if the text entered does not match the methods pattern 
+	 * @throws IllegalAccessException when constructing an instance of the object
+	 * @throws InvocationTargetException when constructing an instance of the object
+	 * @throws InstantiationException when constructing an instance of the object
+	 * @throws ParseException when converting the parameters list
+	 * @throws SecurityException when constructing an instance of the object
+	 * @throws NoSuchMethodException when constructing an instance of the object
+	 */
 	public void callMethod(String text) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException, ParseException, SecurityException, NoSuchMethodException
 	{
 		if(matchMethod(text))
 		{
 			if(!(regex.contains("?")))
 			{
-				method.invoke(object);
+				method.invoke(getObject());
 			}else
 			{
 				String[] params = getMethodParamsFromText(text);
 
 				LOGGER.info("params found "+Arrays.toString(params) + " from text call "+text);
 				Object[] convertedParams = convertParamsToCorrectType(params);
-				Object objectToCall = object;
-				if(createNew)
-				{
-					if(constructorClasses != null && constructorClasses.length>0)
-					{
-						objectToCall = object.getClass().getConstructor(constructorClasses).newInstance(ParmeterHelper.getParamsForMethod(constructorClasses));
-					}else
-					{
-						objectToCall = object.getClass().newInstance();
-					}
-				}
+				
 				LOGGER.info("calling method "+method.getName() + " with params "+Arrays.toString(convertedParams));
-				method.invoke(objectToCall, convertedParams);
+				method.invoke(getObject(), convertedParams);
 			}
 		}
 		else
 		{
 			throw new IllegalArgumentException("the string '"+text+"' does not match the regex '"+regex+"'");
 		}
+	}
+	
+	private Object getObject() throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	{
+		Object objectToCall = object;
+		if(createNew)
+		{
+			if(constructorClasses != null && constructorClasses.length>0)
+			{
+				objectToCall = object.getClass().getConstructor(constructorClasses).newInstance(ParmeterHelper.getParamsForMethod(constructorClasses));
+			}else
+			{
+				objectToCall = object.getClass().newInstance();
+			}
+		}
+		return objectToCall;
 	}
 
 	private String[] getMethodParamsFromText(String text)
@@ -198,6 +225,21 @@ public class TextCallMethod implements Cloneable
 		return convertedParams;
 	}
 	
+
+	/**<p>This builds a new instance of TextCallMethod from a method and constructor that represent 
+	 * the way to build the class that holds the method and the method to call.</p>
+	 *  
+	 *  <p>Will throw a {@link org.test.automation.exceptions.ValidationException} if the method and constructor don't
+	 *  belong to the same class or the method is not annotated with {@link org.test.automation.annotations.TextCall} 
+	 *  
+	 * @param method the method that should be run when you invoke callMethod
+	 * @param constructor the constructor to use in order to create the object containing the method
+	 * @return the new TextCallMethod instance
+	 * @throws IllegalArgumentException if not all params can be found for constructor
+	 * @throws InstantiationException if unable to initiate object
+	 * @throws IllegalAccessException if unable to initiate object
+	 * @throws InvocationTargetException if unable to initiate object
+	 */
 	public static TextCallMethod buildFromAnnotatedMethod(Method method, Constructor<?> constructor) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
 	{
 		TextCall textCall = method.getAnnotation(TextCall.class);
@@ -221,5 +263,4 @@ public class TextCallMethod implements Cloneable
 		return new TextCallMethod(patteren, object, method, textCall.createNewOnEachCall(), constructerParamTypes);
 		
 	}
-	
 }

@@ -11,7 +11,7 @@
 			<#assign trCss = (testCase_index % 2 == 0)?string("Even","Odd")>
 			<div class="testCase ${first} testCase${trCss}">
 				<div class="title">	${testCase.name}</div>		
-				<#list testCase.methods as method>
+				<#list testCase.testCalls as method>
 					<#assign methodCss = (method_index % 2 == 0)?string("Even","Odd")>
 					<#if method.result?? >
 						<#assign passedCss = (method.result.succesfull == true)?string("passed","failed")>
