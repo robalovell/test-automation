@@ -4,11 +4,12 @@ import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.test.automation.core.util.TestAutomationProperties;
 
 
 final class ParmeterHelper {
 	
-	private static final ApplicationContext context = new ClassPathXmlApplicationContext("**/*Context.xml");
+	private static final ApplicationContext context = new ClassPathXmlApplicationContext(TestAutomationProperties.getAutoInjectionContextPath());
 	
 	static Object[] getParamsForMethod(Class<?>[] classes)
 	{

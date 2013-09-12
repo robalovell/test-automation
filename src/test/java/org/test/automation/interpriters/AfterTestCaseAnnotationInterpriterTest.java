@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.test.automation.core.EnviromentConfigurationMethod;
 import org.test.automation.tests.classes.TestBeforeAfter;
+import org.test.automation.tests.classes.TestClass;
 
 public class AfterTestCaseAnnotationInterpriterTest {
 

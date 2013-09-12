@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.io.DefaultResourceLoader;
+import org.test.automation.core.util.TestAutomationProperties;
 
 
 final class AnnotationFinder {
@@ -18,8 +19,8 @@ final class AnnotationFinder {
 	
 	static final  Set<Class<?>> getClassesForAnnotation(Class<? extends Annotation> annotation)
 	{
-		String topPackage = System.getProperty("test.annotation.package", "org.test.automation");
-        LOGGER.info("search package org.test.automation."+topPackage);
+		String topPackage = TestAutomationProperties.getTestHelperClassBasePackage();
+        LOGGER.info("search package "+topPackage);
     	final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(
 		        false);
 

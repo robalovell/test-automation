@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  * <p>This method can take in parameters if required that will be auto inject using spring context 
  * files.  The injected parameter is based on there class type.  The context file can have any name complying
  * with the standard *Context.xml but can be changed using the property helper 
- * TestAutmationProperties.setAutoInjectionContextPath().</p>
+ * {@link org.test.automation.core.util.TestAutomationProperties#setAutoInjectionContextPath(String)}.</p>
  * 
  * 
  * @author roblovell

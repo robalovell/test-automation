@@ -24,7 +24,8 @@ import java.lang.annotation.RetentionPolicy;
  * <li>Date(using the format "HH:mm:ss dd/MM/yyyy")</li>
  * <li>String</li>
  * </ul>
- * The date and Calendar format can be changed using the prperty helper TestAutmationProperties.setDateFormat().
+ * The date and Calendar format can be changed using the prperty helper 
+ * {@link org.test.automation.core.util.TestAutomationProperties#setDateFormat(String)}.
  * </p>
  * 
  * 

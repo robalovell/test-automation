@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 import org.test.automation.annotations.TextCall;
+import org.test.automation.core.util.TestAutomationProperties;
 import org.test.automation.exceptions.ValidationException;
 
 /**This class describes the way in which to invoce a {@link org.test.automation.annotations.TextCall} 
@@ -34,7 +35,7 @@ public class TextCallMethod
 	
 	private static final String PARAMETER_MATCHER = "?";
 	
-	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(System.getProperty("date.format", "HH:mm:ss dd/MM/yyyy"));
+	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(TestAutomationProperties.getDateFormat());
 	
 	private final String regex;
 	

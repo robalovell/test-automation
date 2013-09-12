@@ -87,7 +87,6 @@ public class TextCallAnnotationsTest {
 			}
 		}
 		Assert.assertThat(TestClass.callCount, CoreMatchers.is(CoreMatchers.equalTo(1)));
-		TestClass.callCount=0;
 	}
 
 }

@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * The constructor can be a default i.e. (no parameters) or take in a list of parameters these are then 
  * injected using spring context files based on the class type the 
  * context file can have any name complying with the standard *Context.xml but can be changed using 
- * the property helper TestAutmationProperties.setAutoInjectionContextPath().
+ * the property helper {@link org.test.automation.core.util.TestAutomationProperties#setAutoInjectionContextPath(String)}.
  * </p>
  * <p>
  * This annotation should only be added once to any class if not the first method found will be used.</p>

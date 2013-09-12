@@ -18,18 +18,21 @@ public class TestCaseTest {
 
 	public PrintStream ps; 
 	
+	private int count;
+	
 	@Before
 	public void setup()
 	{
 		ps = System.out;
+		count = TestClass.createdCount;
 	}
 	
 	@After
 	public void tearDown()
 	{
 		System.setOut(ps);
+		TestClass.createdCount = count;
 		TestClass.callCount=0;
-		TestClass.createdCount=0;
 		TestBeforeAfter.setUpCalls = 0;
 		TestBeforeAfter.tearDownCalls = 0;
 	}
