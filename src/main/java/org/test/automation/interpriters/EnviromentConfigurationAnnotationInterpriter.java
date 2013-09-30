@@ -17,10 +17,12 @@ abstract class EnviromentConfigurationAnnotationInterpriter extends AbstractInte
  
     protected static  Set<EnviromentConfigurationMethod> getMethods(Class<? extends Annotation> annotationClass)
     {
+    	LOGGER.info("get all methods with annotation "+annotationClass.getName());
     	final Set<EnviromentConfigurationMethod> calls = new HashSet<EnviromentConfigurationMethod>();
     	
         final Set<Class<?>> classes = AnnotationFinder.getClassesForAnnotation(annotationClass);
-    	
+
+    	LOGGER.info("found  "+classes.size()+" classes which hold a methods with annotation "+annotationClass.getName());
         for (Class<?> clazz : classes) {
         	
         	for (Method method : clazz.getMethods()) 

@@ -1,6 +1,7 @@
 package org.test.automation.tests.classes;
 
 import org.test.automation.annotations.TextCall;
+import org.test.automation.annotations.VariablesAsProperties;
 
 
 public class TestClass {
@@ -16,6 +17,7 @@ public class TestClass {
 	}
 	
 	@TextCall(value = "click ?")
+	@VariablesAsProperties(properties="/tests/test.properties")
 	public void click(String id){
 		callCount++;
 		System.out.println("click "+id);

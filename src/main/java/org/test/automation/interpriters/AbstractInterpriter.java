@@ -2,15 +2,18 @@ package org.test.automation.interpriters;
 
 import java.lang.reflect.Constructor;
 
+import org.apache.log4j.Logger;
 import org.test.automation.annotations.AutomatedTestConstructer;
 import org.test.automation.exceptions.ValidationException;
 
 
 abstract class AbstractInterpriter {
-
-
+	
+	private static final Logger LOGGER = Logger.getLogger(AbstractInterpriter.class);
+	
 	protected static Constructor<?> getConstructor(Class<?> clazz)
 	{
+		LOGGER.info("getting the correct constructor from class "+clazz.getName()); 
 		Constructor<?> constructor = null;
 		if(clazz.getConstructors().length>1)
 		{
@@ -30,6 +33,7 @@ abstract class AbstractInterpriter {
 		{
 			constructor = clazz.getConstructors()[0];
 		}
+		LOGGER.info("found constructor for class "+clazz.getName()); 
 		return constructor;
 	}
 }

@@ -4,5 +4,5 @@ TestCase:Test1
 click "here"
 
 TestCase:Test2
-Click "4" now
+Click "testing" now
 Click "when " ihih" now

@@ -1,6 +1,7 @@
 package org.test.automation.core;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -38,13 +39,13 @@ public class TestCaseTest {
 	}
 	
 	@Test
-	public void testTestCase_runMethods() throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	public void testTestCase_runMethods() throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos); 
 		TextCallMethod callMethod =  TextCallMethod.buildFromAnnotatedMethod(TestClass.class.getMethod("click", String.class), TestClass.class.getConstructors()[0]);
 		System.setOut(ps);
-		TestCall testCall = new TestCall("click \"test\"",callMethod);
+		TestCall testCall = new TestCall("click \"testing\"",callMethod);
 		TestCall testCall2 = new TestCall("click \"ing\"", callMethod);
 		TestCase testCase = new TestCase("test", Arrays.asList(testCall, testCall2));
 		
@@ -52,7 +53,7 @@ public class TestCaseTest {
 		
 		String output = new String(baos.toByteArray());
 		
-		Assert.assertThat(output, CoreMatchers.is(CoreMatchers.equalTo("click test\nclick ing\n")));
+		Assert.assertThat(output, CoreMatchers.is(CoreMatchers.equalTo("click test123\nclick ing\n")));
 		
 	}
 	

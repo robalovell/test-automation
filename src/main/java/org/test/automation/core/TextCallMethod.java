@@ -1,5 +1,6 @@
 package org.test.automation.core;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,16 +11,24 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 import org.test.automation.annotations.TextCall;
+import org.test.automation.annotations.VariablesAsProperties;
 import org.test.automation.core.util.TestAutomationProperties;
 import org.test.automation.exceptions.ValidationException;
 
-/**This class describes the way in which to invoce a {@link org.test.automation.annotations.TextCall} 
+/**<p>This class describes the way in which to invoce a {@link org.test.automation.annotations.TextCall} 
  * annotated method using the information entered within a .atc file.
+ * </p>
+ * <p>
+ * If you wish to pass in paramiter keys instead of the actual values you also need to use the 
+ * {@link org.test.automation.annotations.VariablesAsProperties} this will enable the use of a param file.
+ * However is the enterd value is not a param key it will still use the original text.
+ * </p>
  * 
  * @author roblovell
  *
@@ -49,13 +58,16 @@ public class TextCallMethod
 	
 	private boolean createNew;
 	
-	private TextCallMethod(String regex, Object object, Method method, boolean createNew, Class<?>[] constructorClasses) {
+	private Properties properties;
+	
+	private TextCallMethod(String regex, Object object, Method method, boolean createNew, Class<?>[] constructorClasses, Properties properties) {
 		this.regex = regex;
 		this.object = object;
 		this.method = method;
 		this.createNew = createNew;
 		this.pattern = Pattern.compile("^"+regex.toLowerCase().replace("?", SPLIT_CHAR+".*"+SPLIT_CHAR)+"$");
 		this.constructorClasses = constructorClasses;
+		this.properties = properties;
 		int count = StringUtils.countOccurrencesOf(regex, PARAMETER_MATCHER);
 		if(method.getParameterTypes().length != count)
 		{
@@ -72,6 +84,7 @@ public class TextCallMethod
 			throw new ValidationException(builder.toString());
 		}
 	}
+	
 	
 	
 	/**This matches the annotated method with a text string
@@ -102,6 +115,7 @@ public class TextCallMethod
 			}else
 			{
 				String[] params = getMethodParamsFromText(text);
+				
 
 				LOGGER.info("params found "+Arrays.toString(params) + " from text call "+text);
 				Object[] convertedParams = convertParamsToCorrectType(params);
@@ -163,7 +177,7 @@ public class TextCallMethod
 					word+='"'+textSlipt[i];
 				}
 				regexCount = Math.min(++regexCount, regexSlipt.length-1);
-				params[paramCount++] = word;
+				params[paramCount++] = properties.getProperty(word, word);
 			}
 		}
 		return params;
@@ -240,8 +254,9 @@ public class TextCallMethod
 	 * @throws InstantiationException if unable to initiate object
 	 * @throws IllegalAccessException if unable to initiate object
 	 * @throws InvocationTargetException if unable to initiate object
+	 * @throws IOException 
 	 */
-	public static TextCallMethod buildFromAnnotatedMethod(Method method, Constructor<?> constructor) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
+	public static TextCallMethod buildFromAnnotatedMethod(Method method, Constructor<?> constructor) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, IOException
 	{
 		TextCall textCall = method.getAnnotation(TextCall.class);
 		if(textCall==null)
@@ -252,6 +267,12 @@ public class TextCallMethod
 		{
 			throw new ValidationException("method "+method.getName()+" passed to "+TextCallMethod.class.getSimpleName()+" does not belong to the class "+constructor.getDeclaringClass().getSimpleName());
 		}
+		Properties properties = new Properties();
+		VariablesAsProperties asProperties = method.getAnnotation(VariablesAsProperties.class);
+		if(asProperties != null)
+		{
+			PropertyFileHelper.loadProperties(properties, asProperties.properties());
+		}
     	String patteren = textCall.value();
 
 
@@ -261,7 +282,7 @@ public class TextCallMethod
 		
 		constructerParamTypes = constructor.getParameterTypes();
 		Object object = constructor.newInstance(ParmeterHelper.getParamsForMethod(constructerParamTypes));
-		return new TextCallMethod(patteren, object, method, textCall.createNewOnEachCall(), constructerParamTypes);
+		return new TextCallMethod(patteren, object, method, textCall.createNewOnEachCall(), constructerParamTypes, properties);
 		
 	}
 }
